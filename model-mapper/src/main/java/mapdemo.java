@@ -29,11 +29,19 @@ public class mapdemo {
 
 		OrderDTO targetOrderDTO = modelMapper.map(sourceOrder, OrderDTO.class);
 		System.out.println(targetOrderDTO);
+		//  OrderDTO(customerFirstName=Gillian, customerLastName=Szemeti, 
+		//  billingStreet=High St, billingCity=Sheffield, 
+		//  items=[Item(itemName=Candyfloss, price=2), Item(itemName=Handkerchief, price=3)])
+		
 
-		// We can also map it back again
+		// We can also map it back again, but it's not managed to do the address
 
 		Order targetOrder = modelMapper.map(targetOrderDTO, Order.class);
 		System.out.println(targetOrder);
+		//  Order(customer=Customer(name=Name(firstName=Gillian, lastName=Szemeti)), 
+		//  billingAddress=null, 
+		//  itemsList=[Item(itemName=Candyfloss, price=2), Item(itemName=Handkerchief, price=3)])
+		
 
 		// Now let's define a converter for strings. When we map a string to a string,
 		// we'll make it uppercase (this is looking very javascript-like)
@@ -49,6 +57,11 @@ public class mapdemo {
 
 		targetOrderDTO = modelMapper.map(sourceOrder, OrderDTO.class);
 		System.out.println(targetOrderDTO);
+		//  OrderDTO(customerFirstName=GILLIAN, customerLastName=SZEMETI, 
+		//  billingStreet=HIGH ST, billingCity=SHEFFIELD, 
+		//  items=[Item(itemName=Candyfloss, price=2), Item(itemName=Handkerchief, price=3)])
+		
+		
 
 		// So let's add a specific converter for the items and inflate the prices
 		Converter<Item, Item> itemConverter = new AbstractConverter<Item, Item>() {
