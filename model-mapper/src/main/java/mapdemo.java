@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.List;
 
+import org.modelmapper.AbstractConverter;
+import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
 
 import com.gillianbc.model.Address;
@@ -32,6 +34,41 @@ public class mapdemo {
 
 		Order targetOrder = modelMapper.map(targetOrderDTO, Order.class);
 		System.out.println(targetOrder);
+
+		// Now let's define a converter for strings. When we map a string to a string,
+		// we'll make it uppercase (this is looking very javascript-like)
+		// It hasn't uppercased the child recs - item.itemName - not sure why
+
+		Converter<String, String> bigLetters = new AbstractConverter<String, String>() {
+			protected String convert(String source) {
+				return source == null ? null : source.toUpperCase();
+			}
+		};
+
+		modelMapper.addConverter(bigLetters);
+
+		targetOrderDTO = modelMapper.map(sourceOrder, OrderDTO.class);
+		System.out.println(targetOrderDTO);
+
+		// So let's add a specific converter for the items and inflate the prices
+		Converter<Item, Item> itemConverter = new AbstractConverter<Item, Item>() {
+			protected Item convert(Item source) {
+				Item result = new Item();
+				result.setItemName(source.getItemName().toUpperCase());
+				result.setPrice(source.getPrice() + 12);
+				return result;
+			}
+		};
+
+		modelMapper.addConverter(bigLetters);
+
+		targetOrderDTO = modelMapper.map(sourceOrder, OrderDTO.class);
+		System.out.println(targetOrderDTO);
+		
+		//  Mmm that didn't work - maybe we need to convert the whole collection
+		//  TODO
+		
+
 	}
 
 	public static Order makeData() {
