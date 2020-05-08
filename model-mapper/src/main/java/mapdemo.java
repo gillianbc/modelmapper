@@ -10,65 +10,62 @@ import com.gillianbc.model.Name;
 import com.gillianbc.model.Order;
 import com.gillianbc.model.OrderDTO;
 
-import lombok.Data;
-
-
 public class mapdemo {
 
 	public static void main(String[] args) {
-		System.out.println(makeAndMapData());
+
+		ModelMapper modelMapper = new ModelMapper();
+
+		// Make some data
+		// Order uses the Address and Customer classes
+		// Customer uses the Name class
+		// There is also a collection of Items
+		Order sourceOrder = makeData();
+
+		// We can map it to the target type even though the fieldnames
+		// don't match exactly
+
+		OrderDTO targetOrderDTO = modelMapper.map(sourceOrder, OrderDTO.class);
+		System.out.println(targetOrderDTO);
+
+		// We can also map it back again
+
+		Order targetOrder = modelMapper.map(targetOrderDTO, Order.class);
+		System.out.println(targetOrder);
 	}
 
-	public static OrderDTO makeAndMapData() {
-		
+	public static Order makeData() {
+
 		Address billingAddress = new Address();
 		billingAddress.setCity("Sheffield");
 		billingAddress.setStreet("High St");
-		
+
 		Name name = new Name();
 		name.setFirstName("Gillian");
 		name.setLastName("Szemeti");
-		
+
 		Customer customer = new Customer();
 		customer.setName(name);
-		
+
 		Item item = new Item();
 		item.setItemName("Candyfloss");
 		item.setPrice(2);
-		
+
 		Item item2 = new Item();
 		item2.setItemName("Handkerchief");
 		item2.setPrice(3);
-		
-		//  This is the source object we're going to map
-		//  It uses the Address and Customer classes
-		//  Customer uses the Name class
-		Order order = new Order();
-		order.setBillingAddress(billingAddress);
-		order.setCustomer(customer);
-		
+
 		List<Item> bought = new ArrayList<>();
 		bought.add(item);
 		bought.add(item2);
-		
+
+		Order order = new Order();
+		order.setBillingAddress(billingAddress);
+		order.setCustomer(customer);
 		order.setItemsList(bought);
-		
-		
-		// The model mapper can implicitly work out the mappings from the field names
-		ModelMapper modelMapper = new ModelMapper();
-		OrderDTO orderDTO = modelMapper.map(order, OrderDTO.class);
-		
-		return orderDTO;
-		
-		
+
+		return order;
+
 	}
-
-	
-	
-
-	
-	
-
-	
 
 }
