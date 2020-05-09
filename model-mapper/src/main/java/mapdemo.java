@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.modelmapper.AbstractConverter;
@@ -8,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import com.gillianbc.model.Address;
 import com.gillianbc.model.Customer;
 import com.gillianbc.model.Item;
+import com.gillianbc.model.ItemDTO;
 import com.gillianbc.model.Name;
 import com.gillianbc.model.Order;
 import com.gillianbc.model.OrderDTO;
@@ -23,6 +25,11 @@ public class mapdemo {
 		// Customer uses the Name class
 		// There is also a collection of Items
 		Order sourceOrder = makeData();
+		System.out.println(sourceOrder);
+		//  Order(customer=Customer(name=Name(firstName=Gillian, lastName=Szemeti)), 
+		//  billingAddress=Address(street=High St, city=Sheffield), 
+		//  itemsList=[Item(itemName=Candyfloss, price=2), Item(itemName=Handkerchief, price=3)])
+		
 
 		// We can map it to the target type even though the fieldnames
 		// don't match exactly
@@ -61,25 +68,30 @@ public class mapdemo {
 		//  billingStreet=HIGH ST, billingCity=SHEFFIELD, 
 		//  items=[Item(itemName=Candyfloss, price=2), Item(itemName=Handkerchief, price=3)])
 		
-		
-
-		// So let's add a specific converter for the items and inflate the prices
-		Converter<Item, Item> itemConverter = new AbstractConverter<Item, Item>() {
-			protected Item convert(Item source) {
-				Item result = new Item();
-				result.setItemName(source.getItemName().toUpperCase());
-				result.setPrice(source.getPrice() + 12);
-				return result;
+		Converter<List<Item>, List<ItemDTO>> bigItems = new AbstractConverter<List<Item>, List<ItemDTO>> () {
+			protected List<ItemDTO> convert(List<Item> source) {
+				List<ItemDTO> result = new ArrayList<>();
+ 				for (Item sourceitem : source) {
+ 					ItemDTO targetItem = modelMapper.map(sourceitem, ItemDTO.class);
+					result.add(targetItem);
+					
+				}
+ 				return result;
 			}
 		};
 
-		modelMapper.addConverter(bigLetters);
+		modelMapper.addConverter(bigItems);
+		
 
 		targetOrderDTO = modelMapper.map(sourceOrder, OrderDTO.class);
-		System.out.println(targetOrderDTO);
 		
-		//  Mmm that didn't work - maybe we need to convert the whole collection
-		//  TODO
+		System.out.println(targetOrderDTO);
+		// Not sure why I have to do this faffing to print the ArrayList, but it has uppercased the strings now
+		// i.e. it's applied the list converter and then the string converter
+		System.out.println(targetOrderDTO.getItems().get(0).getItemName());
+		System.out.println(targetOrderDTO.getItems().get(1).getItemName());
+		
+		
 		
 
 	}

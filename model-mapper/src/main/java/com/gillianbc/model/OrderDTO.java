@@ -10,5 +10,5 @@ public class OrderDTO {
 	private String billingStreet;
 	private String billingCity;
 	
-	private List<Item> items;
+	private List<ItemDTO> items;
 }
