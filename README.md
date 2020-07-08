@@ -2,12 +2,10 @@
 
 http://modelmapper.org
 
-##  What's it for?
+Did you ever feel like converting an :apple: to :orange: ?  You've come to the right place.  
 
-Copying fields from instance of class A to new instance of class B without you having to explicitly tell it how to map each and every field.  It makes educated guesses.  
+As a bonus, I will also show you how to convert :orange: to :green_apple:
 
-Your source and target may refer to dependent class instances - it will map those as well - the whole tree structure.
-
-See branch **phase2** for more interesting examples
+I may add more fruity goodness later :grapes:  :peach:  :pear:.
 
 
