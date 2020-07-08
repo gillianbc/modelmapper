@@ -8,4 +8,6 @@ Copying fields from instance of class A to new instance of class B without you h
 
 Your source and target may refer to dependent class instances - it will map those as well - the whole tree structure.
 
+See branch **phase2** for more examples
+
 
