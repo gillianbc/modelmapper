@@ -6,4 +6,6 @@ import lombok.Data;
 public class Orange {
 	private String peelType;
 	private boolean ripe;
+	private int seedCount;
+	private String farmer;
 }

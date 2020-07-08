@@ -6,5 +6,7 @@ import lombok.Data;
 public class Apple {
 	private String skinType;
 	private boolean sweet;
+	private int pipsCount;
+	private int producerNumber;
 
 }
