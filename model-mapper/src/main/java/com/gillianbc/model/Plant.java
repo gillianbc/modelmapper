@@ -11,6 +11,11 @@ public class Plant {
 	public void setPlantName(String plantName) {
 		this.plantName = plantName;
 	}
+
+	@Override
+	public String toString() {
+		return "Plant [plantName=" + plantName + "]";
+	}
 	
 	
 }

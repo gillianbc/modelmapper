@@ -11,6 +11,11 @@ public class Tree {
 	public void setTreeName(String treeName) {
 		this.treeName = treeName;
 	}
+
+	@Override
+	public String toString() {
+		return "Tree [treeName=" + treeName + "]";
+	}
 	
 	
 	
